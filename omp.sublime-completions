@@ -8,6 +8,7 @@
         {"trigger": "IsPlayerWidescreenToggled", "contents": "IsPlayerWidescreenToggled(${1:playerid})"},
         {"trigger": "GetSpawnInfo", "contents": "GetSpawnInfo(${1:playerid}, ${2:&teamid}, ${3:&modelid = 0}, ${4:&Float:spawn_x = 0.0}, ${5:&Float:spawn_y = 0.0}, ${6:&Float:spawn_z = 0.0}, ${7:&Float:z_angle = 0.0}, ${8:&weapon1 = 0}, ${9:&weapon1_ammo = 0}, ${10:&weapon2 = 0}, ${11:&weapon2_ammo = 0}, ${12:&weapon3 = 0}, ${13:&weapon3_ammo = 0})"},
         {"trigger": "GetPlayerSkillLevel", "contents": "GetPlayerSkillLevel(${1:playerid}, ${2:skill})"},
+        {"trigger": "GetPlayerWeather", "contents": "GetPlayerWeather(${1:playerid})"},
         {"trigger": "IsPlayerCheckpointActive", "contents": "IsPlayerCheckpointActive(${1:playerid})"},
         {"trigger": "GetPlayerCheckpoint", "contents": "GetPlayerCheckpoint(${1:playerid}, ${2:&Float:fX}, ${3:&Float:fY = 0.0}, ${4:&Float:fZ = 0.0}, ${5:&Float:fSize = 0.0})"},
         {"trigger": "IsPlayerRaceCheckpointActive", "contents": "IsPlayerRaceCheckpointActive(${1:playerid})"},
@@ -40,6 +41,12 @@
         {"trigger": "SendPlayerMessageToPlayerf", "contents": "SendPlayerMessageToPlayerf(${1:playerid}, ${2:senderid}, ${3:const message[]}, ${4:...})"},
         {"trigger": "RemovePlayerWeapon", "contents": "RemovePlayerWeapon(${1:playerid}, ${2:weaponid})"},
         {"trigger": "HidePlayerDialog", "contents": "HidePlayerDialog(${1:playerid})"},
+        {"trigger": "IsPlayerUsingOfficialClient", "contents": "IsPlayerUsingOfficialClient(${1:playerid})"},
+        {"trigger": "AllowPlayerTeleport", "contents": "AllowPlayerTeleport(${1:playerid}, ${2:bool:allow})"},
+        {"trigger": "IsPlayerTeleportAllowed", "contents": "IsPlayerTeleportAllowed(${1:playerid})"},
+        {"trigger": "AllowPlayerWeapons", "contents": "AllowPlayerWeapons(${1:playerid}, ${2:bool:allow})"},
+        {"trigger": "ArePlayerWeaponsAllowed", "contents": "ArePlayerWeaponsAllowed(${1:playerid})"},
+
         
         // Textdraw - Global
         {"trigger": "IsValidTextDraw", "contents": "IsValidTextDraw(${1:Text:textdrawid})"},
@@ -95,9 +102,13 @@
         {"trigger": "IsGangZoneFlashingForPlayer", "contents": "IsGangZoneFlashingForPlayer(${1:playerid}, ${2:zoneid})"},
         {"trigger": "GangZoneGetPos", "contents": "GangZoneGetPos(${1:zoneid}, ${2:&Float:fMinX}, ${3:&Float:fMinY = 0.0}, ${4:&Float:fMaxX = 0.0}, ${5:&Float:fMaxY = 0.0})"},
         {"trigger": "UseGangZoneCheck", "contents": "UseGangZoneCheck(${1:zoneid}, ${2:bool:toggle})"},
+
+        // Gangzone callbacks - Global
         {"trigger": "OnPlayerEnterGangZone", "contents": "OnPlayerEnterGangZone(${1:playerid}, ${2:zoneid})"},
         {"trigger": "OnPlayerLeaveGangZone", "contents": "OnPlayerLeaveGangZone(${1:playerid}, ${2:zoneid})"},
         {"trigger": "OnPlayerClickGangZone", "contents": "OnPlayerClickGangZone(${1:playerid}, ${2:zoneid})"},
+
+        // Gangzone - Player
         {"trigger": "CreatePlayerGangZone", "contents": "CreatePlayerGangZone(${1:playerid}, ${2:Float:minx}, ${3:Float:miny}, ${4:Float:maxx}, ${5:Float:maxy})"},
         {"trigger": "PlayerGangZoneDestroy", "contents": "PlayerGangZoneDestroy(${1:playerid}, ${2:zoneid})"},
         {"trigger": "PlayerGangZoneShow", "contents": "PlayerGangZoneShow(${1:playerid}, ${2:zoneid}, ${3:color})"},
@@ -112,7 +123,7 @@
         {"trigger": "IsPlayerGangZoneFlashing", "contents": "IsPlayerGangZoneFlashing(${1:playerid}, ${2:zoneid})"},
         {"trigger": "PlayerGangZoneGetPos", "contents": "PlayerGangZoneGetPos(${1:playerid}, ${2:zoneid}, ${3:&Float:fMinX}, ${4:&Float:fMinY}, ${5:&Float:fMaxX}, ${6:&Float:fMaxY})"},
         {"trigger": "UsePlayerGangZoneCheck", "contents": "UsePlayerGangZoneCheck(${1:playerid}, ${2:zoneid}, ${3:bool:use})"},
-        
+
         // Gangzone callbacks - Player
         {"trigger": "OnPlayerEnterPlayerGangZone", "contents": "OnPlayerEnterPlayerGangZone(${1:playerid}, ${2:zoneid})"},
         {"trigger": "OnPlayerLeavePlayerGangZone", "contents": "OnPlayerLeavePlayerGangZone(${1:playerid}, ${2:zoneid})"},
@@ -220,13 +231,15 @@
         {"trigger": "ToggleVehicleSirenEnabled", "contents": "ToggleVehicleSirenEnabled(${1:vehicleid}, ${2:enabled})"},
         {"trigger": "IsVehicleSirenEnabled", "contents": "IsVehicleSirenEnabled(${1:vehicleid})"},
         {"trigger": "GetVehicleModelCount", "contents": "GetVehicleModelCount(${1:modelid})"},
+        {"trigger": "GetVehicleLastDriver", "contents": "GetVehicleLastDriver(${1:vehicleid})"},
+        {"trigger": "GetVehicleDriver", "contents": "GetVehicleDriver(${1:vehicleid})"},
         {"trigger": "GetVehicleModelsUsed", "contents": "GetVehicleModelsUsed()"},
         {"trigger": "GetVehicleSirenState", "contents": "GetVehicleSirenState(${1:vehicleid})"},
         {"trigger": "GetVehicleLandingGearState", "contents": "GetVehicleLandingGearState(${1:vehicleid})"},
         {"trigger": "GetVehicleHydraReactorAngle", "contents": "GetVehicleHydraReactorAngle(${1:vehicleid})"},
         {"trigger": "GetVehicleTrainSpeed", "contents": "Float:GetVehicleTrainSpeed(${1:vehicleid})"},
         {"trigger": "GetVehicleMatrix", "contents": "GetVehicleMatrix(${1:vehicleid}, ${2:&Float:rightX}, ${3:&Float:rightY = 0.0}, ${4:&Float:rightZ = 0.0}, ${5:&Float:upX = 0.0}, ${6:&Float:upY = 0.0}, ${7:&Float:upZ = 0.0}, ${8:&Float:atX = 0.0}, ${9:&Float:atY = 0.0}, ${10:&Float:atZ = 0.0})"},
-        
+
         // Actor
         {"trigger": "GetActorSkin", "contents": "GetActorSkin(${1:actorid})"},
         {"trigger": "SetActorSkin", "contents": "SetActorSkin(${1:actorid}, ${2:model})"},
@@ -248,17 +261,27 @@
         // Core
         {"trigger": "ClearBanList", "contents": "ClearBanList()"},
         {"trigger": "IsBanned", "contents": "IsBanned(${1:const ipaddress[]})"},
-        {"trigger": "IsValidNickName", "contents": "bool:IsValidNickName(${1:const name[]})"},
+        {"trigger": "IsValidNickName", "contents": "IsValidNickName(${1:const name[]})"},
         {"trigger": "AllowNickNameCharacter", "contents": "AllowNickNameCharacter(${1:character}, ${2:bool:allow})"},
-        {"trigger": "IsNickNameCharacterAllowed", "contents": "bool:IsNickNameCharacterAllowed(${1:character})"},
-        {"trigger": "AddServerRule", "contents": "bool:AddServerRule(${1:const name[]}, ${2:const value[]})"},
-        {"trigger": "SetServerRule", "contents": "bool:SetServerRule(${1:const name[]}, ${2:const value[]})"},
-        {"trigger": "IsValidServerRule", "contents": "bool:IsValidServerRule(${1:const name[]})"},
-        {"trigger": "RemoveServerRule", "contents": "bool:RemoveServerRule(${1:const name[]})"},
+        {"trigger": "IsNickNameCharacterAllowed", "contents": "IsNickNameCharacterAllowed(${1:character})"},
+        {"trigger": "AddServerRule", "contents": "AddServerRule(${1:const name[]}, ${2:const value[]})"},
+        {"trigger": "SetServerRule", "contents": "SetServerRule(${1:const name[]}, ${2:const value[]})"},
+        {"trigger": "IsValidServerRule", "contents": "IsValidServerRule(${1:const name[]})"},
+        {"trigger": "RemoveServerRule", "contents": "RemoveServerRule(${1:const name[]})"},
         {"trigger": "SendClientMessageToAllf", "contents": "SendClientMessageToAllf(${1:color}, ${2:const message[]}, ${3:...})"},
         {"trigger": "GameTextForAllf", "contents": "GameTextForAllf(${1:displaytime}, ${2:style}, ${3:const message[]}, ${4:...})"},
         {"trigger": "SendPlayerMessageToAllf", "contents": "SendPlayerMessageToAllf(${1:senderid}, ${2:const message[]}, ${3:...})"},
         {"trigger": "SendRconCommandf", "contents": "SendRconCommandf(${1:const command[]}, ${2:...})"},
-        {"trigger": "GetRunningTimers", "contents": "GetRunningTimers()"}
+        {"trigger": "GetRunningTimers", "contents": "GetRunningTimers()"},
+        {"trigger": "GetVehicles", "contents": "GetVehicles(${1:outputVehicles[]}, ${2:size = sizeof outputVehicles})"},
+        {"trigger": "GetPlayers", "contents": "GetPlayers(${1:outputVehicles[]}, ${2:size = sizeof outputVehicles})"},
+        {"trigger": "GetActors", "contents": "GetActors(${1:outputVehicles[]}, ${2:size = sizeof outputVehicles})"},
+        {"trigger": "AllowAdminTeleport", "contents": "AllowAdminTeleport(${1:bool:allow})"},
+        {"trigger": "IsAdminTeleportAllowed", "contents": "IsAdminTeleportAllowed()"},
+        {"trigger": "AllowInteriorWeapons", "contents": "AllowInteriorWeapons(${1:bool:allow})"},
+        {"trigger": "AreInteriorWeaponsAllowed", "contents": "AreInteriorWeaponsAllowed()"},
+        {"trigger": "AreAllAnimationsEnabled", "contents": "AreAllAnimationsEnabled(})"},
+        {"trigger": "EnableAllAnimations", "contents": "EnableAllAnimations(${1:bool:enable})"},
+        {"trigger": "GetWeather", "contents": "GetWeather()"}
     ]
 }
